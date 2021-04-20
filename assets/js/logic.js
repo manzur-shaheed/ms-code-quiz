@@ -11,13 +11,14 @@ var submitBtn = document.getElementById("submit");
 var startBtn = document.getElementById("start");
 var initialsEl = document.getElementById("initials");
 var feedbackEl = document.getElementById("feedback");
+var endScreenEl = document.getElementById("end-screen");
 var i;
 
 // sound effects
 var sfxRight = new Audio("assets/sfx/correct.wav");
 var sfxWrong = new Audio("assets/sfx/incorrect.wav");
 
-// utility functions 
+// added utility functions 
 function hide(element) {
   element.classList.add('hide');
 }
@@ -30,26 +31,7 @@ function displayTime() {
   timerEl.textContent = time;
 }
 
-// timer start
-function startTimer() {
-  timerId = setInterval(function() {
-    time--;
-    timerEl.textContent = time;
-    if (time >= 0) {
-      // win?
-      if (wonGame && time > 0) {
-        clearInterval(timer);
-        gameStatus('win');
-      }
-      // time has run out
-      if (time === 0) {
-          clearInterval(timer);
-          gameStatus('lost');
-      }
-    }
-  }, 1000);
-}
-
+// given functions
 function startQuiz() {
   // hide start screen
   hide(document.getElementById("start-screen"));
@@ -58,16 +40,18 @@ function startQuiz() {
   show(document.getElementById("questions"));
 
   // start timer
-  // startTimer();
+  clockTick();
 
   // show starting time
   displayTime();
 
+  // get question
   getQuestion();
 }
 
 function getQuestion() {
   // get current question object from array
+  console.log(currentQuestionIndex);
   var question = questions[currentQuestionIndex];
   var ol, btn;
 
@@ -121,47 +105,89 @@ function questionClick(event) {
 
   // flash right/wrong feedback on page for half a second
   show(feedbackEl);
+  setTimeout(function() {
+    feedbackEl.textContent = '';
+  }, 500);
 
   // move to next question
+  currentQuestionIndex++;
 
   // check if we've run out of questions
+  if (currentQuestionIndex == questions.length) {
     // quizEnd
+    quizEnd();
+  }
   // else 
+  else {
     // getQuestion
+    getQuestion();
+  }
 }
 
 function quizEnd() {
+  console.log("Quiz ends");
   // stop timer
-
-  // show end screen
-
-  // show final score
+  clearInterval(timerId);
 
   // hide questions section
+  hide(questionsEl);
+
+  // show end screen
+  show(endScreenEl);
+
+  // show final score
+  document.getElementById("final-score").textContent = time;
 }
 
 function clockTick() {
   // update time
-
-  // check if user ran out of time
+  timerId = setInterval(function() {
+    time--;
+    timerEl.textContent = time;
+    if (time === 0) {
+        clearInterval(timerId);
+        quizEnd();
+    }
+  }, 1000);
 }
 
 function saveHighscore() {
   // get value of input box
+  var user = document.getElementById("initials").value;
+  console.log(user);
+  var currentScore = {
+    user: '',
+    score: 0
+  }
 
   // make sure value wasn't empty
+  if (user !== '') {
     // get saved scores from localstorage, or if not any, set to empty array
-
+    var scoreJSON = localStorage.getItem("scores");
+    scores = JSON.parse(scoreJSON);
+    if (scores == undefined) {
+      scores = [];
+    }
     // format new score object for current user
-
+    currentScore.user = user;
+    currentScore.score = time;
+    scores.push(currentScore)
+    console.log(scores);
+  
     // save to localstorage
+    localStorage.setItem("scores", JSON.stringify(scores));
 
     // redirect to next page
+    window.location.href = "highscores.html";
+  }
 }
 
 function checkForEnter(event) {
   // check if event key is enter
+  if (event.keyCode === 13) {
     // saveHighscore
+    saveHighscore();
+  }
 }
 
 // user clicks button to submit initials
