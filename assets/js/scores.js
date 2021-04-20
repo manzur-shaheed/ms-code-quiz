@@ -1,7 +1,7 @@
 function printHighscores() {
   // either get scores from localstorage or set to empty array
   var scoresJSON = localStorage.getItem("scores");
-  console.log(scoresJSON);
+  // console.log(scoresJSON);
   scores = JSON.parse(scoresJSON);
 
   if (scores == undefined) {
@@ -9,6 +9,7 @@ function printHighscores() {
   }
 
   // (optional) sort highscores by score property in descending order
+  scores.sort((a,b) => (a.score < b.score) ? 1 : -1);
 
   // for each score
   for (i = 0; i< scores.length; i++) {
