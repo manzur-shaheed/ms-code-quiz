@@ -86,8 +86,8 @@ function questionClick(event) {
 
   // check if user guessed wrong
   if (userChoice !== questions[currentQuestionIndex].answer) {
-    // penalize time by 5sec
-    time -= 5;
+    // penalize time by 10sec
+    time -= 10;
 
     // display new time on page
     displayTime();
