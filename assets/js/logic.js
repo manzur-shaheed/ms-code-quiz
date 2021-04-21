@@ -51,7 +51,7 @@ function startQuiz() {
 
 function getQuestion() {
   // get current question object from array
-  console.log(currentQuestionIndex);
+  // console.log(currentQuestionIndex);
   var question = questions[currentQuestionIndex];
   var ol, btn;
 
@@ -82,7 +82,7 @@ function getQuestion() {
 
 function questionClick(event) {
   var userChoice = event.target.textContent;
-  console.log(event.target.textContent);
+  // console.log(event.target.textContent);
 
   // check if user guessed wrong
   if (userChoice !== questions[currentQuestionIndex].answer) {
@@ -125,7 +125,7 @@ function questionClick(event) {
 }
 
 function quizEnd() {
-  console.log("Quiz ends");
+  // console.log("Quiz ends");
   // stop timer
   clearInterval(timerId);
 
@@ -154,7 +154,7 @@ function clockTick() {
 function saveHighscore() {
   // get value of input box
   var user = document.getElementById("initials").value;
-  console.log(user);
+  // console.log(user);
   var currentScore = {
     user: '',
     score: 0
@@ -172,7 +172,7 @@ function saveHighscore() {
     currentScore.user = user;
     currentScore.score = time;
     scores.push(currentScore)
-    console.log(scores);
+    // console.log(scores);
   
     // save to localstorage
     localStorage.setItem("scores", JSON.stringify(scores));

@@ -26,8 +26,9 @@ You can then run this tool by opening index.html page from this directory in a b
 
 ## Deployment
 
-- Initial window 
-![initial_window](./assets/images/main_screen.png)
+The following animation demonstrates the application functionality:
+
+![A user clicks through an interactive coding quiz, then enters initials to save the high score before resetting and starting over.](./assets/images/ms-code-quiz.gif)
 
 
 

@@ -2,8 +2,8 @@ function printHighscores() {
   // either get scores from localstorage or set to empty array
   var scoresJSON = localStorage.getItem("scores");
   // console.log(scoresJSON);
+  
   scores = JSON.parse(scoresJSON);
-
   if (scores == undefined) {
       scores = [];
   }
